@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{61305960-85C2-4647-9CF2-4A0FDFEDA069}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Dota2CachePatcher.Generated</RootNamespace>
+        <AssemblyName>Dota2CachePatcher.Generated</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.CSharp"/>
+        <Reference Include="mscorlib"/>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Numerics"/>
+        <Reference Include="System.Xml"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="App.config"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.21.5"/>
+        <PackageReference Include="Grpc" Version="2.46.3"/>
+        <PackageReference Include="Grpc.Core" Version="2.46.3"/>
+        <PackageReference Include="Grpc.Core.Api" Version="2.46.3"/>
+        <PackageReference Include="Grpc.Tools" Version="2.48.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="System.Buffers" Version="4.4.0"/>
+        <PackageReference Include="System.Memory" Version="4.5.3"/>
+        <PackageReference Include="System.Numerics.Vectors" Version="4.4.0"/>
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <UsingTask TaskName="PrependProtobufSyntaxSpecification" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+            <InputFilename ParameterType="System.String" Required="true"/>
+        </ParameterGroup>
+        <Task>
+            <Reference Include="System.Core"/>
+            <Using Namespace="System.IO"/>
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[File.WriteAllText(InputFilename, "syntax = \"proto2\";\n" + File.ReadAllText(InputFilename));]]>
+            </Code>
+        </Task>
+    </UsingTask>
+    <PropertyGroup>
+        <ProtobufDestinationFolder>$(MSBuildProjectDirectory)\obj\Protos</ProtobufDestinationFolder>
+        <ProtobufRepositoryUrl>https://raw.githubusercontent.com/SteamDatabase/GameTracking-Dota2/master/Protobufs</ProtobufRepositoryUrl>
+    </PropertyGroup>
+    <Target Name="BeforeBuild">
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\steammessages.proto" DestinationFolder="$(ProtobufDestinationFolder)"/>
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\gcsdk_gcmessages.proto" DestinationFolder="$(ProtobufDestinationFolder)"/>
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\dota_shared_enums.proto" DestinationFolder="$(ProtobufDestinationFolder)"/>
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\dota_gcmessages_common.proto" DestinationFolder="$(ProtobufDestinationFolder)"/>
+        <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\steammessages.proto"/>
+        <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\gcsdk_gcmessages.proto"/>
+        <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\dota_shared_enums.proto"/>
+        <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\dota_gcmessages_common.proto"/>
+    </Target>
+    <ItemGroup>
+        <Protobuf ProtoRoot="$(ProtobufDestinationFolder)" Include="$(ProtobufDestinationFolder)\*.proto" ProtoCompile="true"/>
+    </ItemGroup>
+    <Target Name="AfterBuild">
+    </Target>
+</Project>
