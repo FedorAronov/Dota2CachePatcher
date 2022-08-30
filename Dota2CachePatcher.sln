@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2CachePatcher", "Dota2CachePatcher\Dota2CachePatcher.csproj", "{0F6CD47F-40DA-401F-911B-99A6A2574ED7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2CachePatcher.Generated", "Dota2CachePatcher.Generated\Dota2CachePatcher.Generated.csproj", "{61305960-85C2-4647-9CF2-4A0FDFEDA069}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,9 +12,5 @@ Global
 		{0F6CD47F-40DA-401F-911B-99A6A2574ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F6CD47F-40DA-401F-911B-99A6A2574ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F6CD47F-40DA-401F-911B-99A6A2574ED7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61305960-85C2-4647-9CF2-4A0FDFEDA069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61305960-85C2-4647-9CF2-4A0FDFEDA069}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61305960-85C2-4647-9CF2-4A0FDFEDA069}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61305960-85C2-4647-9CF2-4A0FDFEDA069}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
