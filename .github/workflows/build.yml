@@ -22,8 +22,6 @@ jobs:
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
-      with:
-        vs-version: '[17.2.0, 17.4.0)'
     
     - name: Restore packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -45,5 +43,5 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         name: Dota2CachePatcher
-        path: ${{env.GITHUB_WORKSPACE}}/Dota2CachePatcher/bin/Release/
+        path: ./Dota2CachePatcher/bin/Release/
   
