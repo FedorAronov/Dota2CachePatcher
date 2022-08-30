@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
     <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +11,11 @@
         <AssemblyName>Dota2CachePatcher.Generated</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <FileUpgradeFlags>
+        </FileUpgradeFlags>
+        <UpgradeBackupLocation>
+        </UpgradeBackupLocation>
+        <OldToolsVersion>2.0</OldToolsVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,6 +26,7 @@
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +36,7 @@
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Microsoft.CSharp"/>
@@ -48,17 +55,10 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Google.Protobuf" Version="3.21.5"/>
-        <PackageReference Include="Grpc" Version="2.46.3"/>
-        <PackageReference Include="Grpc.Core" Version="2.46.3"/>
-        <PackageReference Include="Grpc.Core.Api" Version="2.46.3"/>
         <PackageReference Include="Grpc.Tools" Version="2.48.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="System.Buffers" Version="4.4.0"/>
-        <PackageReference Include="System.Memory" Version="4.5.3"/>
-        <PackageReference Include="System.Numerics.Vectors" Version="4.4.0"/>
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <UsingTask TaskName="PrependProtobufSyntaxSpecification" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
@@ -68,9 +68,7 @@
         <Task>
             <Reference Include="System.Core"/>
             <Using Namespace="System.IO"/>
-            <Code Type="Fragment" Language="cs">
-                <![CDATA[File.WriteAllText(InputFilename, "syntax = \"proto2\";\n" + File.ReadAllText(InputFilename));]]>
-            </Code>
+            <Code Type="Fragment" Language="cs"><![CDATA[File.WriteAllText(InputFilename, "syntax = \"proto2\";\n" + File.ReadAllText(InputFilename));]]></Code>
         </Task>
     </UsingTask>
     <PropertyGroup>
@@ -88,8 +86,6 @@
         <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\dota_gcmessages_common.proto"/>
     </Target>
     <ItemGroup>
-        <Protobuf ProtoRoot="$(ProtobufDestinationFolder)" Include="$(ProtobufDestinationFolder)\*.proto" ProtoCompile="true"/>
+        <Protobuf ProtoRoot="$(ProtobufDestinationFolder)" Include="$(ProtobufDestinationFolder)\*.proto"/>
     </ItemGroup>
-    <Target Name="AfterBuild">
-    </Target>
 </Project>
