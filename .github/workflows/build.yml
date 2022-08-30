@@ -24,7 +24,19 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
       with:
         vs-version: '[17.2.0, 17.4.0)'
-
+    
+    - name: Restore packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /t:Restore ${{env.SOLUTION_FILE_PATH}}
+    
+    - name: Run BeforeBuild explicitly
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:BeforeBuild ./Dota2CachePatcher/Dota2CachePatcher.csproj
+    
+    - name: Run Protobuf_Compile explicitly
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:Protobuf_Compile ./Dota2CachePatcher/Dota2CachePatcher.csproj
+    
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /t:Rebuild /restore /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
