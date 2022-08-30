@@ -25,10 +25,6 @@ jobs:
       with:
         vs-version: '[17.2.0, 17.4.0)'
 
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:Restore ${{env.SOLUTION_FILE_PATH}}
-
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:Rebuild /verbosity:diag ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /t:Rebuild /restore /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
