@@ -27,7 +27,7 @@ jobs:
     
     - name: Restore packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /t:Restore ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /t:Restore Dota2CachePatcher.sln
 
     - name: Run BeforeBuild explicitly
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -45,5 +45,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Dota2CachePatcher
-        path: ${{env.SOLUTION_FILE_PATH}}/Dota2CachePatcher/bin/Release
+        path: ${{env.GITHUB_WORKSPACE}}/Dota2CachePatcher/bin/Release
   
