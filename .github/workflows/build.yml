@@ -7,7 +7,6 @@ on:
     branches: [ "master" ]
 
 env:
-  SOLUTION_FILE_PATH: Dota2CachePatcher.sln
   BUILD_CONFIGURATION: Release
 
 permissions:
@@ -15,6 +14,7 @@ permissions:
 
 jobs:
   build:
+    name: Build
     runs-on: windows-latest
 
     steps:
@@ -28,15 +28,22 @@ jobs:
     - name: Restore packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild /m /t:Restore ${{env.SOLUTION_FILE_PATH}}
-    
-    #- name: Run BeforeBuild explicitly
-    #  working-directory: ${{env.GITHUB_WORKSPACE}}
-    #  run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:BeforeBuild ./Dota2CachePatcher/Dota2CachePatcher.csproj
-    
-    #- name: Run Protobuf_Compile explicitly
-    #  working-directory: ${{env.GITHUB_WORKSPACE}}
-    #  run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:Protobuf_Compile ./Dota2CachePatcher/Dota2CachePatcher.csproj
-    
-    - name: Build
+
+    - name: Run BeforeBuild explicitly
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:BeforeBuild ./Dota2CachePatcher/Dota2CachePatcher.csproj
+
+    - name: Run Protobuf_Compile explicitly
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /t:Protobuf_Compile ./Dota2CachePatcher/Dota2CachePatcher.csproj
+    
+    - name: Build solution
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} Dota2CachePatcher.sln
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Dota2CachePatcher
+        path: ${{env.SOLUTION_FILE_PATH}}/Dota2CachePatcher/bin/Release
+  
