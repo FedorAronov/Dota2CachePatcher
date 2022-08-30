@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Linq;
+using Gameloop.Vdf;
+using Gameloop.Vdf.Linq;
 using Google.Protobuf;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Win32;
@@ -39,21 +41,17 @@ internal static class Program
     [Pure]
     private static string GetDota2Path(string steamPath)
     {
-        string libraryPath;
+        var config = VdfConvert.Deserialize(File.ReadAllText(Path.Combine(steamPath, "config", "libraryfolders.vdf")));
+        Console.WriteLine(config.Value.GetType());
+        foreach (var library in ((VObject)config.Value).Properties().Select(property => (VObject)property.Value))
         {
-            var config = File.ReadAllText(Path.Combine(steamPath, "config", "libraryfolders.vdf"));
-            var match = Regex.Match(
-                config,
-                "{[\\s\n]+?\"path\"\\s+?\"(.+?)\".+?\"apps\"[\\s\n]+?{[\\s\n]+?\"570\".+?}.+?}",
-                RegexOptions.Singleline);
-            if (!match.Success)
-            {
-                throw new FileNotFoundException("Dota 2 not found in library");
-            }
-
-            libraryPath = match.Groups[1].Value.Replace(@"\\", @"\");
+            if (library["apps"] is not VObject apps) continue;
+            if (apps.Properties().All(app => app.Key != "570")) continue;
+            if (library["path"] is not VValue path) throw new Exception("Failed to parse library config");
+            return Path.Combine(path.Value<string>().Replace(@"\\", @"\"), "steamapps", "common", "dota 2 beta");
         }
-        return Path.Combine(libraryPath, "steamapps", "common", "dota 2 beta");
+
+        throw new FileNotFoundException("Dota 2 not found in library");
     }
 
     [Pure]
