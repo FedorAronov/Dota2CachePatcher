@@ -42,7 +42,6 @@ internal static class Program
     private static string GetDota2Path(string steamPath)
     {
         var config = VdfConvert.Deserialize(File.ReadAllText(Path.Combine(steamPath, "config", "libraryfolders.vdf")));
-        Console.WriteLine(config.Value.GetType());
         foreach (var library in ((VObject)config.Value).Properties().Select(property => (VObject)property.Value))
         {
             if (library["apps"] is not VObject apps) continue;
@@ -86,7 +85,12 @@ internal static class Program
                     case 2012:
                     {
                         var instance = CSODOTAGameAccountPlus.Parser.ParseFrom(typeCache.Objects[0]);
+                        Console.WriteLine(instance.ToString());
+                        instance.OriginalStartDate = 946684800;
+                        instance.PlusFlags = 9;
                         instance.PlusStatus = 1;
+                        instance.NextPaymentDate = 2840140800;
+                        instance.SteamAgreementId = 4391548477872141610;
                         typeCache.Objects[0] = instance.ToByteString();
                         break;
                     }
