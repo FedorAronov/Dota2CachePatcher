@@ -86,10 +86,12 @@ internal static class Program
                     {
                         var instance = CSODOTAGameAccountPlus.Parser.ParseFrom(typeCache.Objects[0]);
                         Console.WriteLine(instance.ToString());
-                        instance.OriginalStartDate = 946684800;
+                        instance.OriginalStartDate = 1;
                         instance.PlusFlags = 9;
                         instance.PlusStatus = 1;
-                        instance.NextPaymentDate = 2840140800;
+                        instance.PrepaidTimeStart = 1;
+                        instance.PrepaidTimeBalance = uint.MaxValue - 1;
+                        instance.NextPaymentDate = uint.MaxValue - 1;
                         instance.SteamAgreementId = 4391548477872141610;
                         typeCache.Objects[0] = instance.ToByteString();
                         break;
