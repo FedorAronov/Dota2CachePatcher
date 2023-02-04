@@ -78,12 +78,12 @@
         <ProtobufRepositoryUrl>https://raw.githubusercontent.com/SteamDatabase/GameTracking-Dota2/master/Protobufs</ProtobufRepositoryUrl>
     </PropertyGroup>
     <Target Name="BeforeBuild">
-        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\steammessages.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
-        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\gcsdk_gcmessages.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
-        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\dota_shared_enums.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
-        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\dota_gcmessages_common.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
-        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\steammessages_unified_base.steamworkssdk.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
-        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)\steammessages_steamlearn.steamworkssdk.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)/steammessages.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)/gcsdk_gcmessages.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)/dota_shared_enums.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)/dota_gcmessages_common.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)/steammessages_unified_base.steamworkssdk.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
+        <DownloadFile SourceUrl="$(ProtobufRepositoryUrl)/steammessages_steamlearn.steamworkssdk.proto" DestinationFolder="$(ProtobufDestinationFolder)" />
         <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\steammessages.proto" />
         <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\gcsdk_gcmessages.proto" />
         <PrependProtobufSyntaxSpecification InputFilename="$(ProtobufDestinationFolder)\dota_shared_enums.proto" />
